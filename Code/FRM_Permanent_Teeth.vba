@@ -19,27 +19,39 @@ err_all:
     MsgBox Err.Description
     Exit Sub
 End Sub
+Private Sub cmdGuide_Click()
+On Error GoTo err_cmdGuide
+    DoCmd.OpenForm "frm_pop_tooth_guide", acNormal, , , acFormReadOnly
+Exit Sub
+err_cmdGuide:
+    Call General_Error_Trap
+    Exit Sub
+End Sub
 Private Sub CmdOpenDecidTeethFrm_Click()
 On Error GoTo Err_CmdOpenDecidTeethFrm_Click
-    Call DoRecordCheck("HR_Teeth development measurement", Me![txtUnit], Me![txtIndivid], "UnitNumber")
-    Call DoRecordCheck("HR_Teeth development score", Me![txtUnit], Me![txtIndivid], "UnitNumber")
-    Call DoRecordCheck("HR_Teeth wear", Me![txtUnit], Me![txtIndivid], "UnitNumber")
-    Dim stDocName As String
-    Dim stLinkCriteria As String
-    stDocName = "FRM_DECIDUOUS_TEETH"
-    DoCmd.OpenForm stDocName, , , "[UnitNumber] = " & Me![txtUnit] & " AND [Individual Number] = " & Me![txtIndivid]
-    DoCmd.Close acForm, Me.Name
+    Dim answer
+    answer = MsgBox("Only enter retained deciduous teeth from here. Are you sure you want to continue?", vbQuestion + vbYesNo, "Confirm Action")
+    If answer = vbYes Then
+        Call DoRecordCheck("HR_Teeth development measurement", Me![txtUnit], Me![txtIndivid], "UnitNumber")
+        Call DoRecordCheck("HR_Teeth development score", Me![txtUnit], Me![txtIndivid], "UnitNumber")
+        Call DoRecordCheck("HR_Teeth wear", Me![txtUnit], Me![txtIndivid], "UnitNumber")
+        Dim stDocName As String
+        Dim stLinkCriteria As String
+        stDocName = "FRM_DECIDUOUS_TEETH"
+        DoCmd.OpenForm stDocName, , , "[UnitNumber] = " & Me![txtUnit] & " AND [Individual Number] = " & Me![txtIndivid]
+        DoCmd.Close acForm, Me.Name
+    End If
 Exit_CmdOpenDecidTeethFrm_Click:
     Exit Sub
 Err_CmdOpenDecidTeethFrm_Click:
     MsgBox Err.Description
     Resume Exit_CmdOpenDecidTeethFrm_Click
 End Sub
-Private Sub CmdOpenJuvFrm_Click()
+Private Sub CmdOpenJuvenileFrm_Click()
 On Error GoTo Err_CmdOpenJuvFrm_Click
     Call DoRecordCheck("HR_Juvenile_Cranial_Data", Me![txtUnit], Me![txtIndivid], "UnitNumber")
     Call DoRecordCheck("HR_Juvenile_shoulder_hip", Me![txtUnit], Me![txtIndivid], "UnitNumber")
-    Call DoRecordCheck("HR_CODE_juvenile_axial", Me![txtUnit], Me![txtIndivid], "UnitNumber")
+    Call DoRecordCheck("HR_Juvenile_axial", Me![txtUnit], Me![txtIndivid], "UnitNumber")
     Call DoRecordCheck("HR_Juvenile_Arm_Data", Me![txtUnit], Me![txtIndivid], "UnitNumber")
     Call DoRecordCheck("HR_Juvenile_Leg_Data", Me![txtUnit], Me![txtIndivid], "UnitNumber")
     Dim stDocName As String
@@ -99,4 +111,12 @@ Exit_CmdOpenUnitDescFrm_Click:
 Err_CmdOpenUnitDescFrm_Click:
     MsgBox Err.Description
     Resume Exit_CmdOpenUnitDescFrm_Click
+End Sub
+Private Sub Form_Current()
+On Error GoTo err_current
+    Call SortOutButtons(Me)
+Exit Sub
+err_current:
+    General_Error_Trap
+    Exit Sub
 End Sub

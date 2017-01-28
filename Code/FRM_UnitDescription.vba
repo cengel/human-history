@@ -11,11 +11,50 @@ err_cboFind:
     MsgBox Err.Description
     Exit Sub
 End Sub
+Private Sub cboFind_NotInList(NewData As String, Response As Integer)
+On Error GoTo err_cbofindNot
+    MsgBox "This unit number has not been entered yet", vbInformation, "No Match"
+    Response = acDataErrContinue
+    Me![cboFind].Undo
+    DoCmd.GoToControl "cmdAddNewUnit"
+Exit Sub
+err_cbofindNot:
+    Call General_Error_Trap
+    Exit Sub
+End Sub
 Private Sub cmdAddNew_Click()
 On Error GoTo err_cmdAddNew
-    DoCmd.OpenForm "FRM_SkeletonDEscription", acNormal, , , acFormAdd
-    Forms![FRM_SkeletonDEscription]![txtUnit] = Me![txtUnit]
-    DoCmd.Close acForm, Me.Name
+Dim sql
+    If Me![txtUnit] <> "" Then
+        Dim checknum
+        checknum = DLookup("[UnitNumber]", "[HR_BasicSkeletonData]", "[UnitNumber] = " & Me![txtUnit])
+        If IsNull(checknum) Then
+            sql = "INSERT INTO [HR_BasicSkeletonData] ([UnitNumber], [Individual Number]) VALUES (" & Me![txtUnit] & ", 1);"
+            DoCmd.RunSQL sql
+            Me.Refresh
+            MsgBox "Individual number 1 added for Unit " & Me![txtUnit], vbInformation, "Record added"
+        Else
+            Dim mydb As Database, myrs As DAO.Recordset, lastnumber, nextnumber
+            Set mydb = CurrentDb()
+            sql = "SELECT HR_BasicSkeletonData.UnitNumber, HR_BasicSkeletonData.[Individual number] FROM HR_BasicSkeletonData WHERE HR_BasicSkeletonData.UnitNumber = " & Me![txtUnit] & " ORDER BY HR_BasicSkeletonData.UnitNumber, HR_BasicSkeletonData.[Individual number];"
+            Set myrs = mydb.OpenRecordset(sql, dbOpenSnapshot)
+            If Not myrs.BOF And Not myrs.EOF Then
+                myrs.MoveLast
+                lastnumber = myrs![Individual number]
+                nextnumber = lastnumber + 1
+                sql = "INSERT INTO [HR_BasicSkeletonData] ([UnitNumber], [Individual Number]) VALUES (" & Me![txtUnit] & ", " & nextnumber & ");"
+                DoCmd.RunSQL sql
+                Me.Refresh
+                MsgBox "Individual number " & nextnumber & " added for Unit " & Me![txtUnit], vbInformation, "Record added"
+            Else
+                 sql = "INSERT INTO [HR_BasicSkeletonData] ([UnitNumber], [Individual Number]) VALUES (" & Me![txtUnit] & ", 1);"
+                DoCmd.RunSQL sql
+                Me.Refresh
+            End If
+        End If
+    Else
+        MsgBox "You must enter a unit number first", vbInformation, "Unit Number Missing"
+    End If
 Exit Sub
 err_cmdAddNew:
     MsgBox Err.Description
@@ -67,4 +106,18 @@ Err_CmdOpenMainMenuFrm_Click:
     Resume Exit_CmdOpenMainMenuFrm_Click
 End Sub
 Private Sub Combo28_BeforeUpdate(Cancel As Integer)
+End Sub
+Private Sub Form_Open(Cancel As Integer)
+On Error GoTo err_open
+Exit Sub
+err_open:
+    Call General_Error_Trap
+    Exit Sub
+End Sub
+Private Sub txtUnit_AfterUpdate()
+On Error GoTo err_txtUnit
+Exit Sub
+err_txtUnit:
+    Call General_Error_Trap
+    Exit Sub
 End Sub

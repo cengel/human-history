@@ -22,6 +22,24 @@ End Sub
 Private Sub cmdMenu_Click()
 Call ReturnToMenu(Me)
 End Sub
+Private Sub CmdOpenJuvenileFrm_Click()
+On Error GoTo Err_CmdOpenJuvFrm_Click
+    Call DoRecordCheck("HR_Juvenile_Cranial_Data", Me![txtUnit], Me![txtIndivid], "UnitNumber")
+    Call DoRecordCheck("HR_Juvenile_shoulder_hip", Me![txtUnit], Me![txtIndivid], "UnitNumber")
+    Call DoRecordCheck("HR_Juvenile_axial", Me![txtUnit], Me![txtIndivid], "UnitNumber")
+    Call DoRecordCheck("HR_Juvenile_Arm_Data", Me![txtUnit], Me![txtIndivid], "UnitNumber")
+    Call DoRecordCheck("HR_Juvenile_Leg_Data", Me![txtUnit], Me![txtIndivid], "UnitNumber")
+    Dim stDocName As String
+    Dim stLinkCriteria As String
+    stDocName = "FRM_Juvenile"
+    DoCmd.OpenForm stDocName, , , "[UnitNumber] = " & Me![txtUnit] & " AND [Individual Number] = " & Me![txtIndivid]
+    DoCmd.Close acForm, Me.Name
+Exit_CmdOpenJuvFrm_Click:
+    Exit Sub
+Err_CmdOpenJuvFrm_Click:
+    MsgBox Err.Description
+    Resume Exit_CmdOpenJuvFrm_Click
+End Sub
 Private Sub CmdOpenNeonateFrm_Click()
 On Error GoTo Err_CmdOpenNeonateFrm_Click
     Call DoRecordCheck("HR_Neonate_Cranial_Data", Me![txtUnit], Me![txtIndivid], "UnitNumber")
@@ -42,7 +60,7 @@ Private Sub CmdOpenJuvFrm_Click()
 On Error GoTo Err_CmdOpenJuvFrm_Click
     Call DoRecordCheck("HR_Juvenile_Cranial_Data", Me![txtUnit], Me![txtIndivid], "UnitNumber")
     Call DoRecordCheck("HR_Juvenile_shoulder_hip", Me![txtUnit], Me![txtIndivid], "UnitNumber")
-    Call DoRecordCheck("HR_CODE_juvenile_axial", Me![txtUnit], Me![txtIndivid], "UnitNumber")
+    Call DoRecordCheck("HR_Juvenile_axial", Me![txtUnit], Me![txtIndivid], "UnitNumber")
     Call DoRecordCheck("HR_Juvenile_Arm_Data", Me![txtUnit], Me![txtIndivid], "UnitNumber")
     Call DoRecordCheck("HR_Juvenile_Leg_Data", Me![txtUnit], Me![txtIndivid], "UnitNumber")
     Dim stDocName As String
@@ -85,4 +103,12 @@ Exit_CmdOpenUnitDescFrm_Click:
 Err_CmdOpenUnitDescFrm_Click:
     MsgBox Err.Description
     Resume Exit_CmdOpenUnitDescFrm_Click
+End Sub
+Private Sub Form_Current()
+On Error GoTo err_current
+    Call SortOutButtons(Me)
+Exit Sub
+err_current:
+    General_Error_Trap
+    Exit Sub
 End Sub

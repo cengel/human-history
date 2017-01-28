@@ -19,7 +19,15 @@ err_all:
     MsgBox Err.Description
     Exit Sub
 End Sub
-Private Sub CmdOpeNeonateFrm_Click()
+Private Sub cmdGuide_Click()
+On Error GoTo err_cmdGuide
+    DoCmd.OpenForm "frm_pop_tooth_guide", acNormal, , , acFormReadOnly
+Exit Sub
+err_cmdGuide:
+    Call General_Error_Trap
+    Exit Sub
+End Sub
+Private Sub CmdOpenNeonateFrm_Click()
 On Error GoTo Err_CmdOpeNeonateFrm_Click
     Call DoRecordCheck("HR_Neonate_Cranial_Data", Me![txtUnit], Me![txtIndivid], "UnitNumber")
     Call DoRecordCheck("HR_Neonate_arm_leg_data", Me![txtUnit], Me![txtIndivid], "UnitNumber")
@@ -35,11 +43,11 @@ Err_CmdOpeNeonateFrm_Click:
     MsgBox Err.Description
     Resume Exit_CmdOpeNeonateFrm_Click
 End Sub
-Private Sub CmdOpenJuvFrm_Click()
+Private Sub CmdOpenJuvenileFrm_Click()
 On Error GoTo Err_CmdOpenJuvFrm_Click
     Call DoRecordCheck("HR_Juvenile_Cranial_Data", Me![txtUnit], Me![txtIndivid], "UnitNumber")
     Call DoRecordCheck("HR_Juvenile_shoulder_hip", Me![txtUnit], Me![txtIndivid], "UnitNumber")
-    Call DoRecordCheck("HR_CODE_juvenile_axial", Me![txtUnit], Me![txtIndivid], "UnitNumber")
+    Call DoRecordCheck("HR_Juvenile_axial", Me![txtUnit], Me![txtIndivid], "UnitNumber")
     Call DoRecordCheck("HR_Juvenile_Arm_Data", Me![txtUnit], Me![txtIndivid], "UnitNumber")
     Call DoRecordCheck("HR_Juvenile_Leg_Data", Me![txtUnit], Me![txtIndivid], "UnitNumber")
     Dim stDocName As String
@@ -97,4 +105,12 @@ Exit_CmdOpenUnitDescFrm_Click:
 Err_CmdOpenUnitDescFrm_Click:
     MsgBox Err.Description
     Resume Exit_CmdOpenUnitDescFrm_Click
+End Sub
+Private Sub Form_Current()
+On Error GoTo err_current
+    Call SortOutButtons(Me)
+Exit Sub
+err_current:
+    General_Error_Trap
+    Exit Sub
 End Sub

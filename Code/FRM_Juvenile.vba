@@ -26,7 +26,7 @@ On Error GoTo Err_CmdOpenDecidTeethFrm_Click
     Call DoRecordCheck("HR_Teeth wear", Me![txtUnit], Me![txtIndivid], "UnitNumber")
     Dim stDocName As String
     Dim stLinkCriteria As String
-    stDocName = "FRM_simons DECIDUOUS TEETH"
+    stDocName = "FRM_Deciduous_Teeth"
     DoCmd.OpenForm stDocName, , , "[UnitNumber] = " & Me![txtUnit] & " AND [Individual Number] = " & Me![txtIndivid]
     DoCmd.Close acForm, Me.Name
 Exit_CmdOpenDecidTeethFrm_Click:
@@ -42,7 +42,7 @@ On Error GoTo Err_CmdOpenPermTeethFrm_Click
     Call DoRecordCheck("HR_Teeth wear", Me![txtUnit], Me![txtIndivid], "UnitNumber")
     Dim stDocName As String
     Dim stLinkCriteria As String
-    stDocName = "FRM_simons PERMANENT TEETH"
+    stDocName = "FRM_Permanent_Teeth"
     DoCmd.OpenForm stDocName, , , "[UnitNumber] = " & Me![txtUnit] & " AND [Individual Number] = " & Me![txtIndivid]
     DoCmd.Close acForm, Me.Name
 Exit_CmdOpenPermTeethFrm_Click:
@@ -118,4 +118,12 @@ Err_CmdOpenUnitDescFrm_Click:
 End Sub
 Private Sub Command463_Click()
 Call ReturnToMenu(Me)
+End Sub
+Private Sub Form_Open(Cancel As Integer)
+On Error GoTo err_open
+    DoCmd.GoToControl "FRM_SUBFORM_Juvenile_skull"
+Exit Sub
+err_open:
+    General_Error_Trap
+    Exit Sub
 End Sub

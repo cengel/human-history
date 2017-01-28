@@ -2,13 +2,13 @@ Option Compare Database
 Option Explicit
 Private Sub cboAgeCategory_AfterUpdate()
 On Error GoTo err_cboAgeCategory
-Dim msg, retVal
+Dim msg, retval
     If Me![cboAgeCategory].OldValue <> "" Then
         msg = "When the system is fully developed this change will be checked to see what implications it might have if data has"
         msg = msg & " already been entered into the Neonate, Juvenile or Adult form." & Chr(13) & Chr(13) & "No check exists at present"
         msg = msg & " and it is up to you to tidy up any existing data" & Chr(13) & Chr(13) & "Continue with this change?"
-        retVal = MsgBox(msg, vbYesNo, "Development Point")
-        If retVal = vbNo Then
+        retval = MsgBox(msg, vbYesNo, "Development Point")
+        If retval = vbNo Then
             Me![cboAgeCategory] = Me![cboAgeCategory].OldValue
         End If
     End If
@@ -45,11 +45,12 @@ Private Sub CmdOpenJuvenileFrm_Click()
 On Error GoTo Err_CmdOpenJuvenileFrm_Click
     Call DoRecordCheck("HR_Juvenile_Cranial_Data", Me![txtUnit], Me![txtIndivid], "UnitNumber")
     Call DoRecordCheck("HR_Juvenile_shoulder_hip", Me![txtUnit], Me![txtIndivid], "UnitNumber")
-    Call DoRecordCheck("HR_CODE_juvenile_axial", Me![txtUnit], Me![txtIndivid], "UnitNumber")
+    Call DoRecordCheck("HR_Juvenile_axial", Me![txtUnit], Me![txtIndivid], "UnitNumber")
     Call DoRecordCheck("HR_Juvenile_Arm_Data", Me![txtUnit], Me![txtIndivid], "UnitNumber")
     Call DoRecordCheck("HR_Juvenile_Leg_Data", Me![txtUnit], Me![txtIndivid], "UnitNumber")
     Dim stDocName As String
     Dim stLinkCriteria As String
+    Me.Requery
     stDocName = "FRM_Juvenile"
     DoCmd.OpenForm stDocName, , , "[UnitNumber] = " & Me![txtUnit] & " AND [Individual Number] = " & Me![txtIndivid]
     DoCmd.Close acForm, Me.Name
@@ -68,6 +69,7 @@ On Error GoTo Err_CmdOpenAdultFrm_Click
     Call DoRecordCheck("HR_Adult_Leg_Data", Me![txtUnit], Me![txtIndivid], "UnitNumber")
     Dim stDocName As String
     Dim stLinkCriteria As String
+    Me.Requery
     stDocName = "FRM_Adult"
     DoCmd.OpenForm stDocName, , , "[UnitNumber] = " & Me![txtUnit] & " AND [Individual Number] = " & Me![txtIndivid]
     DoCmd.Close acForm, Me.Name
@@ -100,6 +102,7 @@ On Error GoTo Err_CmdOpenDecidTeethFrm_Click
     Call DoRecordCheck("HR_Teeth wear", Me![txtUnit], Me![txtIndivid], "UnitNumber")
     Dim stDocName As String
     Dim stLinkCriteria As String
+    Me.Requery
     stDocName = "FRM_Deciduous_Teeth"
     DoCmd.OpenForm stDocName, , , "[UnitNumber] = " & Me![txtUnit] & " AND [Individual Number] = " & Me![txtIndivid]
     DoCmd.Close acForm, Me.Name
@@ -116,6 +119,7 @@ On Error GoTo Err_CmdOpenPermTeethFrm_Click
     Call DoRecordCheck("HR_Teeth wear", Me![txtUnit], Me![txtIndivid], "UnitNumber")
     Dim stDocName As String
     Dim stLinkCriteria As String
+    Me.Requery
     stDocName = "FRM_Permanent_Teeth"
     DoCmd.OpenForm stDocName, , , "[UnitNumber] = " & Me![txtUnit] & " AND [Individual Number] = " & Me![txtIndivid]
     DoCmd.Close acForm, Me.Name
@@ -132,6 +136,7 @@ On Error GoTo Err_CmdOpenNeonateFrm_Click
     Call DoRecordCheck("HR_Neonate_Axial_Data", Me![txtUnit], Me![txtIndivid], "UnitNumber")
     Dim stDocName As String
     Dim stLinkCriteria As String
+    Me.Requery
     stDocName = "FRM_simons NEONATAL FORM"
     DoCmd.OpenForm stDocName, , , "[UnitNumber] = " & Me![txtUnit] & " AND [Individual Number] = " & Me![txtIndivid]
     DoCmd.Close acForm, Me.Name
@@ -142,10 +147,10 @@ Err_CmdOpenNeonateFrm_Click:
     Resume Exit_CmdOpenNeonateFrm_Click
 End Sub
 Private Sub Form_Current()
-On Error GoTo err_Current
+On Error GoTo err_current
 Call SortOutButtons(Me)
 Exit Sub
-err_Current:
+err_current:
     MsgBox Err.Description
     Exit Sub
 End Sub

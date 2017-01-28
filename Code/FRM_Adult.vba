@@ -1,4 +1,5 @@
 Option Compare Database
+Option Explicit
 Private Sub cboFind_AfterUpdate()
 On Error GoTo err_cboFind
     If Me![cboFind] <> "" Then
@@ -26,7 +27,7 @@ On Error GoTo Err_CmdOpenPermTeethFrm_Click
     Call DoRecordCheck("HR_Teeth wear", Me![txtUnit], Me![txtIndivid], "UnitNumber")
     Dim stDocName As String
     Dim stLinkCriteria As String
-    stDocName = "FRM_simons PERMANENT TEETH"
+    stDocName = "FRM_Permanent_Teeth"
     DoCmd.OpenForm stDocName, , , "[UnitNumber] = " & Me![txtUnit] & " AND [Individual Number] = " & Me![txtIndivid]
     DoCmd.Close acForm, Me.Name
 Exit_CmdOpenPermTeethFrm_Click:

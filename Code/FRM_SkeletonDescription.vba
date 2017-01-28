@@ -11,6 +11,17 @@ err_cboFind:
     MsgBox Err.Description
     Exit Sub
 End Sub
+Private Sub cboFind_NotInList(NewData As String, Response As Integer)
+On Error GoTo err_cbofindNot
+    MsgBox "This skeleton number does not exist in the database", vbInformation, "No Match"
+    Response = acDataErrContinue
+    Me![cboFind].Undo
+    DoCmd.GoToControl "CmdOpenUnitDescFrm"
+Exit Sub
+err_cbofindNot:
+    Call General_Error_Trap
+    Exit Sub
+End Sub
 Private Sub cmdAll_Click()
 On Error GoTo err_all
     Me.FilterOn = False
@@ -22,8 +33,14 @@ err_all:
 End Sub
 Private Sub cmdNewSkeleton_Click()
 On Error GoTo err_cmdNew
+    Dim thisUnit
+    thisUnit = Me![txtUnit]
     DoCmd.GoToRecord acActiveDataObject, , acNewRec
+    Me![txtUnit].Locked = False
     DoCmd.GoToControl "txtUnit"
+    Me![txtUnit] = thisUnit
+    Me![txtUnit].Locked = True
+    DoCmd.GoToControl "txtIndivid"
 Exit Sub
 err_cmdNew:
     MsgBox Err.Description

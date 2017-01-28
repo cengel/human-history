@@ -5,6 +5,7 @@ On Error GoTo Err_cmdUnitDesc_Click
     Dim stLinkCriteria As String
     stDocName = "FRM_UnitDescription"
     DoCmd.OpenForm stDocName, , , stLinkCriteria
+    DoCmd.RunCommand acCmdRecordsGoToNew
 Exit_cmdUnitDesc_Click:
     Exit Sub
 Err_cmdUnitDesc_Click:

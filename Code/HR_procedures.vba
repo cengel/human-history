@@ -32,29 +32,55 @@ Sub SortOutButtons(frm As Form)
 On Error GoTo err_Sort
 If frm![cboAgeCategory] <> "" Then
         If frm![cboAgeCategory] = 0 Then
-            frm![CmdOpenNeonateFrm].Enabled = True
+            If frm.Name <> "FRM_Permanent_Teeth" Then frm![CmdOpenNeonateFrm].Enabled = True
             frm![CmdOpenJuvenileFrm].Enabled = False
-            frm![CmdOpenAdultFrm].Enabled = False
+            If frm.Name <> "FRM_Deciduous_Teeth" Then frm![CmdOpenAdultFrm].Enabled = False
         ElseIf frm![cboAgeCategory] = 1 Or frm![cboAgeCategory] = 2 Or frm![cboAgeCategory] = 3 Then
-            frm![CmdOpenNeonateFrm].Enabled = False
+            If frm.Name <> "FRM_Permanent_Teeth" Then frm![CmdOpenNeonateFrm].Enabled = False
             frm![CmdOpenJuvenileFrm].Enabled = True
-            frm![CmdOpenAdultFrm].Enabled = False
+            If frm.Name <> "FRM_Deciduous_Teeth" Then frm![CmdOpenAdultFrm].Enabled = False
         ElseIf frm![cboAgeCategory] = 4 Or frm![cboAgeCategory] = 5 Or frm![cboAgeCategory] = 6 Or frm![cboAgeCategory] = 7 Then
-            frm![CmdOpenNeonateFrm].Enabled = False
+            If frm.Name <> "FRM_Permanent_Teeth" Then frm![CmdOpenNeonateFrm].Enabled = False
             frm![CmdOpenJuvenileFrm].Enabled = False
-            frm![CmdOpenAdultFrm].Enabled = True
+            If frm.Name <> "FRM_Deciduous_Teeth" Then frm![CmdOpenAdultFrm].Enabled = True
         Else
-            frm![CmdOpenNeonateFrm].Enabled = True
+            If frm.Name <> "FRM_Permanent_Teeth" Then frm![CmdOpenNeonateFrm].Enabled = True
             frm![CmdOpenJuvenileFrm].Enabled = True
-            frm![CmdOpenAdultFrm].Enabled = True
+            If frm.Name <> "FRM_Deciduous_Teeth" Then frm![CmdOpenAdultFrm].Enabled = True
         End If
    Else
-        frm![CmdOpenNeonateFrm].Enabled = False
+            If frm.Name <> "FRM_Permanent_Teeth" Then frm![CmdOpenNeonateFrm].Enabled = False
             frm![CmdOpenJuvenileFrm].Enabled = False
-            frm![CmdOpenAdultFrm].Enabled = False
+            If frm.Name <> "FRM_Deciduous_Teeth" Then frm![CmdOpenAdultFrm].Enabled = False
     End If
 Exit Sub
 err_Sort:
     MsgBox Err.Description
     Exit Sub
 End Sub
+Function GetSkeletonAge(frm As Form)
+On Error GoTo err_GetSkeletonAge
+Dim retval
+retval = ""
+If DBName <> "" Then
+    Dim mydb As DAO.Database, myrs As DAO.Recordset
+    Dim sql
+    Set mydb = CurrentDb()
+    sql = "SELECT [age category] FROM [Q_Retrieve_Age_of_Skeleton] WHERE [unit number] = " & frm![txtUnit] & " AND [individual number] = " & frm![txtIndivid] & ";"
+    Set myrs = mydb.OpenRecordset(sql, dbOpenSnapshot)
+    If Not (myrs.BOF And myrs.EOF) Then
+        myrs.MoveFirst
+        retval = retval & myrs![age category]
+    End If
+    myrs.Close
+    Set myrs = Nothing
+    mydb.Close
+    Set mydb = Nothing
+Else
+    retval = retval & "X"
+End If
+GetSkeletonAge = retval
+Exit Function
+err_GetSkeletonAge:
+    Call General_Error_Trap
+End Function

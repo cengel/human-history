@@ -5,8 +5,8 @@ On Error GoTo err_startup
 DoCmd.OpenForm "FRM_Login", acNormal, , , acFormEdit, acDialog
     Application.SetOption "Confirm Action Queries", False  'this will hide behind the scences sql actions
 SetCurrentVersion
-DoCmd.OpenForm "FRM_MainMenu", acNormal, , , acFormReadOnly 'open main menu
-Forms![FRM_MainMenu].Refresh
+DoCmd.OpenForm "FRM_MAINMENU", acNormal, , , acFormReadOnly 'open main menu
+Forms![FRM_MAINMENU].Refresh
 Exit Function
 err_startup:
     Call General_Error_Trap

@@ -12,8 +12,8 @@ err_GetCurrentVersion:
 End Function
 Function SetCurrentVersion()
 On Error GoTo err_SetCurrentVersion
-Dim retVal
-retVal = "v"
+Dim retval
+retval = "v"
 If DBName <> "" Then
     Dim mydb As DAO.Database, myrs As DAO.Recordset
     Dim sql
@@ -22,17 +22,17 @@ If DBName <> "" Then
     Set myrs = mydb.OpenRecordset(sql, dbOpenSnapshot)
     If Not (myrs.BOF And myrs.EOF) Then
         myrs.MoveFirst
-        retVal = retVal & myrs![Version_num]
+        retval = retval & myrs![Version_num]
     End If
     myrs.Close
     Set myrs = Nothing
     mydb.Close
     Set mydb = Nothing
 Else
-    retVal = retVal & "X"
+    retval = retval & "X"
 End If
-VersionNumber = retVal
-SetCurrentVersion = retVal
+VersionNumber = retval
+SetCurrentVersion = retval
 Exit Function
 err_SetCurrentVersion:
     Call General_Error_Trap
