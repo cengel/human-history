@@ -2,13 +2,13 @@ Option Compare Database
 Option Explicit
 Private Sub cboAgeCategory_AfterUpdate()
 On Error GoTo err_cboAgeCategory
-Dim msg, retval
+Dim msg, retVal
     If Me![cboAgeCategory].OldValue <> "" Then
         msg = "When the system is fully developed this change will be checked to see what implications it might have if data has"
         msg = msg & " already been entered into the Neonate, Juvenile or Adult form." & Chr(13) & Chr(13) & "No check exists at present"
         msg = msg & " and it is up to you to tidy up any existing data" & Chr(13) & Chr(13) & "Continue with this change?"
-        retval = MsgBox(msg, vbYesNo, "Development Point")
-        If retval = vbNo Then
+        retVal = MsgBox(msg, vbYesNo, "Development Point")
+        If retVal = vbNo Then
             Me![cboAgeCategory] = Me![cboAgeCategory].OldValue
         End If
     End If
@@ -35,6 +35,14 @@ On Error GoTo err_all
 Exit Sub
 err_all:
     MsgBox Err.Description
+    Exit Sub
+End Sub
+Private Sub cmdGuide_Click()
+On Error GoTo err_cmdGuide
+    DoCmd.OpenForm "frm_pop_agesexguide", acNormal, , , acFormReadOnly
+Exit Sub
+err_cmdGuide:
+    Call General_Error_Trap
     Exit Sub
 End Sub
 Private Sub cmdMenu_Click()

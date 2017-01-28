@@ -12,27 +12,41 @@ err_GetCurrentVersion:
 End Function
 Function SetCurrentVersion()
 On Error GoTo err_SetCurrentVersion
-Dim retval
-retval = "v"
+Dim retVal, centralver
+retVal = "v"
 If DBName <> "" Then
     Dim mydb As DAO.Database, myrs As DAO.Recordset
-    Dim sql
+    Dim sql, theVersionNumberLocal
     Set mydb = CurrentDb()
     sql = "SELECT [Version_Num] FROM [Database_Interface_Version_History] WHERE [MDB_Name] = '" & DBName & "' AND not isnull([DATE_RELEASED]) ORDER BY [Version_Num] DESC;"
     Set myrs = mydb.OpenRecordset(sql, dbOpenSnapshot)
     If Not (myrs.BOF And myrs.EOF) Then
         myrs.MoveFirst
-        retval = retval & myrs![Version_num]
+        centralver = myrs![Version_num]
+        retVal = retVal & myrs![Version_num]
+        theVersionNumberLocal = VersionNumberLocal
+        If InStr(centralver, ",") > 0 Then centralver = Replace(centralver, ",", ".")
+        If InStr(theVersionNumberLocal, ",") > 0 Then theVersionNumberLocal = Replace(theVersionNumberLocal, ",", ".")
+        If CDbl(centralver) <> CDbl(theVersionNumberLocal) Then
+            Dim msg
+            msg = "There is a new version of the Human Remains database file available. " & Chr(13) & Chr(13) & _
+                    "Please close this copy now and run 'Update Databases.bat' on your desktop or " & _
+                    "copy the file 'Human Remains Central Database.mdb' from G:\" & Year(Date) & " Central Server Databases " & _
+                    " into the 'New Database Files folder' on your desktop." & Chr(13) & Chr(13) & "If you do not do this" & _
+                    " you may experience problems using this database and you will not be able to utilise any new functionaility that has been added." & Chr(13) & Chr(13) & _
+                    "DO NOT DO THIS IF YOU HAVE SAVED ANY NEW QUERIES INTO YOUR DESKTOP COPY OF THE DATABASE."
+            MsgBox msg, vbExclamation + vbOKOnly, "New version available"
+        End If
     End If
     myrs.Close
     Set myrs = Nothing
     mydb.Close
     Set mydb = Nothing
 Else
-    retval = retval & "X"
+    retVal = retVal & "X"
 End If
-VersionNumber = retval
-SetCurrentVersion = retval
+VersionNumber = retVal
+SetCurrentVersion = retVal
 Exit Function
 err_SetCurrentVersion:
     Call General_Error_Trap

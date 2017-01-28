@@ -25,6 +25,14 @@ Err_cmdUnitDesc_Click:
     MsgBox Err.Description
     Resume Exit_cmdUnitDesc_Click
 End Sub
+Private Sub cmdMNI_Click()
+On Error GoTo Err_cmdMNI
+    DoCmd.OpenForm "Frm_Pop_Choose_MNI"
+    Exit Sub
+Err_cmdMNI:
+    MsgBox Err.Description
+    Exit Sub
+End Sub
 Private Sub cmdPLowerDisease_Click()
 On Error GoTo Err_cmdUnitDesc_Click
     Dim stDocName As String

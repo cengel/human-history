@@ -30,6 +30,14 @@ err_all:
     MsgBox Err.Description
     Exit Sub
 End Sub
+Private Sub cmdGuide_Click()
+On Error GoTo err_cmdGuide
+    DoCmd.OpenForm "frm_pop_skeletonguide", acNormal, , , acFormReadOnly
+Exit Sub
+err_cmdGuide:
+    Call General_Error_Trap
+    Exit Sub
+End Sub
 Private Sub cmdNewSkeleton_Click()
 On Error GoTo err_cmdNew
     Dim thisUnit

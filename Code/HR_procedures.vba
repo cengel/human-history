@@ -31,7 +31,7 @@ End Sub
 Sub SortOutButtons(frm As Form)
 On Error GoTo err_Sort
 If frm![cboAgeCategory] <> "" Then
-        If frm![cboAgeCategory] = 0 Then
+        If frm![cboAgeCategory] = 0 Or frm![cboAgeCategory] = 9 Then
             If frm.Name <> "FRM_Permanent_Teeth" Then frm![CmdOpenNeonateFrm].Enabled = True
             frm![CmdOpenJuvenileFrm].Enabled = False
             If frm.Name <> "FRM_Deciduous_Teeth" Then frm![CmdOpenAdultFrm].Enabled = False
@@ -60,8 +60,8 @@ err_Sort:
 End Sub
 Function GetSkeletonAge(frm As Form)
 On Error GoTo err_GetSkeletonAge
-Dim retval
-retval = ""
+Dim retVal
+retVal = ""
 If DBName <> "" Then
     Dim mydb As DAO.Database, myrs As DAO.Recordset
     Dim sql
@@ -70,16 +70,16 @@ If DBName <> "" Then
     Set myrs = mydb.OpenRecordset(sql, dbOpenSnapshot)
     If Not (myrs.BOF And myrs.EOF) Then
         myrs.MoveFirst
-        retval = retval & myrs![age category]
+        retVal = retVal & myrs![age category]
     End If
     myrs.Close
     Set myrs = Nothing
     mydb.Close
     Set mydb = Nothing
 Else
-    retval = retval & "X"
+    retVal = retVal & "X"
 End If
-GetSkeletonAge = retval
+GetSkeletonAge = retVal
 Exit Function
 err_GetSkeletonAge:
     Call General_Error_Trap

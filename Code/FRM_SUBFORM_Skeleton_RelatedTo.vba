@@ -1,4 +1,5 @@
 Option Compare Database
+Option Explicit
 Private Sub cmdAddRelation_Click()
 On Error GoTo err_skel
     Dim strArgs
@@ -26,6 +27,18 @@ On Error GoTo err_cmdDelete
     End If
 Exit Sub
 err_cmdDelete:
+    Call General_Error_Trap
+    Exit Sub
+End Sub
+Private Sub cmdMark_Click()
+On Error GoTo err_cmdMark
+    If (Me![Unit] = "" Or IsNull(Me![Unit])) Or (Me!IndividualNumber = "" Or IsNull(Me!IndividualNumber)) Then
+        MsgBox "No relationships established yet so function not available", vbInformation, "No Relationships"
+    Else
+        DoCmd.OpenForm "FRM_SUBFORM_IncludeInAgeCategory", , , , , , "([HR_Skeleton_RelatedTo_Skeleton].Unit=" & Me!Unit & " AND [HR_Skeleton_RelatedTo_Skeleton].IndividualNumber=" & Me!IndividualNumber & ") OR ([HR_Skeleton_RelatedTo_Skeleton].RelatedToUnit=" & Me!Unit & " AND [HR_Skeleton_RelatedTo_Skeleton].RelatedToIndividualNumber=" & Me!IndividualNumber & ")"
+    End If
+Exit Sub
+err_cmdMark:
     Call General_Error_Trap
     Exit Sub
 End Sub

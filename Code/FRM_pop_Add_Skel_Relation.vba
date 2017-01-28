@@ -10,9 +10,10 @@ err_cmdCancel:
     Call General_Error_Trap
     Exit Sub
 End Sub
-Private Sub cmdOk_Click()
+Private Sub cmdOK_Click()
 On Error GoTo err_cmdOK
-Dim sql
+Dim sql, sql1
+Dim mydb As DAO.Database, myrs As DAO.Recordset
     If Me!cboSelect <> "" Then
         sql = "SELECT HR_Skeleton_RelatedTo_Skeleton.Unit, HR_Skeleton_RelatedTo_Skeleton.IndividualNumber, "
         sql = sql & "HR_Skeleton_RelatedTo_Skeleton.RelatedToUnit, HR_Skeleton_RelatedTo_Skeleton.RelatedToIndividualNumber "
@@ -24,7 +25,6 @@ Dim sql
         sql = sql & "((HR_Skeleton_RelatedTo_Skeleton.Unit=" & Me!cboSelect.Column(1) & " AND HR_Skeleton_RelatedTo_Skeleton.IndividualNumber=" & Me!cboSelect.Column(2) & ")"
         sql = sql & " AND "
         sql = sql & "(HR_Skeleton_RelatedTo_Skeleton.RelatedToUnit=" & Me!txtUnit & " AND HR_Skeleton_RelatedTo_Skeleton.RelatedToIndividualNumber=" & Me!txtIndivid & "));"
-        Dim mydb As DAO.Database, myrs As DAO.Recordset
         Set mydb = CurrentDb
         Set myrs = mydb.OpenRecordset(sql, dbOpenSnapshot)
         If Not (myrs.BOF And myrs.EOF) Then
@@ -48,6 +48,27 @@ Dim sql
                 Notes = Replace(Me!txtNotes, "'", "''")
             Else
                 Notes = ""
+            End If
+            Dim OtherRelatedToUnit, OtherRelatedToIndivid, present
+            sql1 = "SELECT * FROM HR_Skeleton_RelatedTo_Skeleton " & _
+                    "WHERE HR_Skeleton_RelatedTo_Skeleton.Unit= " & Me![cboSelect].Column(1) & " AND HR_Skeleton_RelatedTo_Skeleton.IndividualNumber=" & Me![cboSelect].Column(2) & ";"
+            Set mydb = CurrentDb
+            Set myrs = mydb.OpenRecordset(sql1, dbOpenSnapshot)
+            If Not (myrs.BOF And myrs.EOF) Then
+                myrs.MoveFirst
+                Do Until myrs.EOF
+                    OtherRelatedToUnit = myrs![RelatedToUnit]
+                    OtherRelatedToIndivid = myrs![RelatedToIndividualNumber]
+                    present = DCount("[Unit]", "[HR_Skeleton_RelatedTo_Skeleton]", "[Unit] = " & Me![txtUnit] & " AND [IndividualNumber] = " & Me![txtIndivid] & " AND [RelatedToUnit] = " & OtherRelatedToUnit & " AND [RelatedToIndividualNumber] = " & OtherRelatedToIndivid)
+                    If present = 0 Or IsNull(present) Then
+                        MsgBox Me![cboSelect].Column(1) & ".B" & Me![cboSelect].Column(2) & " is in turn related to " & OtherRelatedToUnit & ".B" & OtherRelatedToIndivid & " and so this relationship will also exist here", vbInformation, "Relationship cascade"
+                        sql = "INSERT INTO HR_Skeleton_RelatedTo_Skeleton (Unit, IndividualNumber, RelatedToUnit, RelatedToIndividualNumber, Notes) VALUES (" & Me!txtUnit & ", " & Me![txtIndivid] & ", " & OtherRelatedToUnit & ", " & OtherRelatedToIndivid & ", '" & myrs!Notes & "');"
+                        DoCmd.RunSQL sql
+                        sql = "INSERT INTO HR_Skeleton_RelatedTo_Skeleton (Unit, IndividualNumber, RelatedToUnit, RelatedToIndividualNumber, Notes) VALUES (" & OtherRelatedToUnit & ", " & OtherRelatedToIndivid & ", " & Me![txtUnit] & ", " & Me![txtIndivid] & ", '" & Notes & "');"
+                        DoCmd.RunSQL sql
+                    End If
+                myrs.MoveNext
+                Loop
             End If
             sql = "INSERT INTO HR_Skeleton_RelatedTo_Skeleton (Unit, IndividualNumber, RelatedToUnit, RelatedToIndividualNumber, Notes) VALUES (" & Me!txtUnit & ", " & Me![txtIndivid] & ", " & Me![cboSelect].Column(1) & ", " & Me![cboSelect].Column(2) & ", '" & Notes & "');"
             DoCmd.RunSQL sql
