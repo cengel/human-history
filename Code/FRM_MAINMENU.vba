@@ -60,7 +60,7 @@ Private Sub CmdOpenJuvenileFrm_Click()
 On Error GoTo Err_CmdOpenJuvenileFrm_Click
     Dim stDocName As String
     Dim stLinkCriteria As String
-    stDocName = "FRM_Simons juvenile form"
+    stDocName = "FRM_Juvenile"
     DoCmd.OpenForm stDocName, , , stLinkCriteria
 Exit_CmdOpenJuvenileFrm_Click:
     Exit Sub
@@ -72,7 +72,7 @@ Private Sub CmdOpenAdultFrm_Click()
 On Error GoTo Err_CmdOpenAdultFrm_Click
     Dim stDocName As String
     Dim stLinkCriteria As String
-    stDocName = "FRM_Simons adult form"
+    stDocName = "FRM_Adult"
     DoCmd.OpenForm stDocName, , , stLinkCriteria
 Exit_CmdOpenAdultFrm_Click:
     Exit Sub
@@ -84,7 +84,7 @@ Private Sub CmdOpenDecidTeethFrm_Click()
 On Error GoTo Err_CmdOpenDecidTeethFrm_Click
     Dim stDocName As String
     Dim stLinkCriteria As String
-    stDocName = "FRM_simons DECIDUOUS TEETH"
+    stDocName = "FRM_Deciduous_Teeth"
     DoCmd.OpenForm stDocName, , , stLinkCriteria
 Exit_CmdOpenDecidTeethFrm_Click:
     Exit Sub
@@ -96,7 +96,7 @@ Private Sub CmdOpenPermTeethFrm_Click()
 On Error GoTo Err_CmdOpenPermTeethFrm_Click
     Dim stDocName As String
     Dim stLinkCriteria As String
-    stDocName = "FRM_simons PERMANENT TEETH"
+    stDocName = "FRM_Permanent_Teeth"
     DoCmd.OpenForm stDocName, , , stLinkCriteria
 Exit_CmdOpenPermTeethFrm_Click:
     Exit Sub

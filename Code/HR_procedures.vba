@@ -35,11 +35,11 @@ If frm![cboAgeCategory] <> "" Then
             frm![CmdOpenNeonateFrm].Enabled = True
             frm![CmdOpenJuvenileFrm].Enabled = False
             frm![CmdOpenAdultFrm].Enabled = False
-        ElseIf frm![cboAgeCategory] = 1 Or frm![cboAgeCategory] = 2 Or frm![cboAgeCategory] = 3 Or frm![cboAgeCategory] = 4 Then
+        ElseIf frm![cboAgeCategory] = 1 Or frm![cboAgeCategory] = 2 Or frm![cboAgeCategory] = 3 Then
             frm![CmdOpenNeonateFrm].Enabled = False
             frm![CmdOpenJuvenileFrm].Enabled = True
             frm![CmdOpenAdultFrm].Enabled = False
-        ElseIf frm![cboAgeCategory] = 5 Or frm![cboAgeCategory] = 6 Or frm![cboAgeCategory] = 7 Then
+        ElseIf frm![cboAgeCategory] = 4 Or frm![cboAgeCategory] = 5 Or frm![cboAgeCategory] = 6 Or frm![cboAgeCategory] = 7 Then
             frm![CmdOpenNeonateFrm].Enabled = False
             frm![CmdOpenJuvenileFrm].Enabled = False
             frm![CmdOpenAdultFrm].Enabled = True

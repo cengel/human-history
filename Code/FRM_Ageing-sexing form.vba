@@ -50,7 +50,7 @@ On Error GoTo Err_CmdOpenJuvenileFrm_Click
     Call DoRecordCheck("HR_Juvenile_Leg_Data", Me![txtUnit], Me![txtIndivid], "UnitNumber")
     Dim stDocName As String
     Dim stLinkCriteria As String
-    stDocName = "FRM_Simons juvenile form"
+    stDocName = "FRM_Juvenile"
     DoCmd.OpenForm stDocName, , , "[UnitNumber] = " & Me![txtUnit] & " AND [Individual Number] = " & Me![txtIndivid]
     DoCmd.Close acForm, Me.Name
 Exit_CmdOpenJuvenileFrm_Click:
@@ -68,7 +68,7 @@ On Error GoTo Err_CmdOpenAdultFrm_Click
     Call DoRecordCheck("HR_Adult_Leg_Data", Me![txtUnit], Me![txtIndivid], "UnitNumber")
     Dim stDocName As String
     Dim stLinkCriteria As String
-    stDocName = "FRM_Simons adult form"
+    stDocName = "FRM_Adult"
     DoCmd.OpenForm stDocName, , , "[UnitNumber] = " & Me![txtUnit] & " AND [Individual Number] = " & Me![txtIndivid]
     DoCmd.Close acForm, Me.Name
 Exit_CmdOpenAdultFrm_Click:
@@ -100,7 +100,7 @@ On Error GoTo Err_CmdOpenDecidTeethFrm_Click
     Call DoRecordCheck("HR_Teeth wear", Me![txtUnit], Me![txtIndivid], "UnitNumber")
     Dim stDocName As String
     Dim stLinkCriteria As String
-    stDocName = "FRM_simons DECIDUOUS TEETH"
+    stDocName = "FRM_Deciduous_Teeth"
     DoCmd.OpenForm stDocName, , , "[UnitNumber] = " & Me![txtUnit] & " AND [Individual Number] = " & Me![txtIndivid]
     DoCmd.Close acForm, Me.Name
 Exit_CmdOpenDecidTeethFrm_Click:
@@ -116,7 +116,7 @@ On Error GoTo Err_CmdOpenPermTeethFrm_Click
     Call DoRecordCheck("HR_Teeth wear", Me![txtUnit], Me![txtIndivid], "UnitNumber")
     Dim stDocName As String
     Dim stLinkCriteria As String
-    stDocName = "FRM_simons PERMANENT TEETH"
+    stDocName = "FRM_Permanent_Teeth"
     DoCmd.OpenForm stDocName, , , "[UnitNumber] = " & Me![txtUnit] & " AND [Individual Number] = " & Me![txtIndivid]
     DoCmd.Close acForm, Me.Name
 Exit_CmdOpenPermTeethFrm_Click:

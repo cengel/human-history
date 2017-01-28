@@ -19,49 +19,35 @@ err_all:
     MsgBox Err.Description
     Exit Sub
 End Sub
-Private Sub CmdOpenAgeSexFrm_Click()
-On Error GoTo Err_CmdOpenAgeSexFrm_Click
-    Call DoRecordCheck("HR_ageing and sexing", Me![txtUnit], Me![txtIndivid], "Unit Number")
-    Dim stDocName As String
-    Dim stLinkCriteria As String
-    stDocName = "FRM_Ageing-sexing form"
-    DoCmd.OpenForm stDocName, , , "[Unit Number] = " & Me![txtUnit] & " AND [Individual Number] = " & Me![txtIndivid]
-    DoCmd.Close acForm, Me.Name
-Exit_CmdOpenAgeSexFrm_Click:
-    Exit Sub
-Err_CmdOpenAgeSexFrm_Click:
-    MsgBox Err.Description
-    Resume Exit_CmdOpenAgeSexFrm_Click
-End Sub
-Private Sub CmdOpenDeciduousTeethFrm_Click()
-On Error GoTo Err_CmdOpenDeciduousTeethFrm_Click
+Private Sub CmdOpenPermTeethFrm_Click()
+On Error GoTo Err_CmdOpenPermTeethFrm_Click
     Call DoRecordCheck("HR_Teeth development measurement", Me![txtUnit], Me![txtIndivid], "UnitNumber")
     Call DoRecordCheck("HR_Teeth development score", Me![txtUnit], Me![txtIndivid], "UnitNumber")
     Call DoRecordCheck("HR_Teeth wear", Me![txtUnit], Me![txtIndivid], "UnitNumber")
     Dim stDocName As String
     Dim stLinkCriteria As String
-    stDocName = "FRM_Deciduous_Teeth"
+    stDocName = "FRM_simons PERMANENT TEETH"
     DoCmd.OpenForm stDocName, , , "[UnitNumber] = " & Me![txtUnit] & " AND [Individual Number] = " & Me![txtIndivid]
     DoCmd.Close acForm, Me.Name
-Exit_CmdOpenDeciduousTeethFrm_Click:
+Exit_CmdOpenPermTeethFrm_Click:
     Exit Sub
-Err_CmdOpenDeciduousTeethFrm_Click:
+Err_CmdOpenPermTeethFrm_Click:
     MsgBox Err.Description
-    Resume Exit_CmdOpenDeciduousTeethFrm_Click
+    Resume Exit_CmdOpenPermTeethFrm_Click
 End Sub
-Private Sub CmdMeasFrm_Click()
-On Error GoTo Err_CmdMeasFrm_Click
+Private Sub CmdOpenMeasFrm_Click()
+On Error GoTo Err_CmdOpenMeasFrm_Click
     Call DoRecordCheck("HR_Measurements version 2", Me![txtUnit], Me![txtIndivid], "UnitNumber")
     Dim stDocName As String
     Dim stLinkCriteria As String
     stDocName = "FRM_Measurement form version 2"
     DoCmd.OpenForm stDocName, , , "[UnitNumber] = " & Me![txtUnit] & " AND [Individual Number] = " & Me![txtIndivid]
     DoCmd.Close acForm, Me.Name
-Exit_CmdMeasFrm_Click:
+Exit_CmdOpenMeasFrm_Click:
     Exit Sub
-Err_CmdMeasFrm_Click:
+Err_CmdOpenMeasFrm_Click:
     MsgBox Err.Description
-    Resume Exit_CmdMeasFrm_Click
+    Resume Exit_CmdOpenMeasFrm_Click
 End Sub
 Private Sub CmdOpenUnitDescFrm_Click()
 On Error GoTo Err_CmdOpenUnitDescFrm_Click
@@ -76,41 +62,28 @@ Err_CmdOpenUnitDescFrm_Click:
     MsgBox Err.Description
     Resume Exit_CmdOpenUnitDescFrm_Click
 End Sub
-Private Sub CmdOpenMenuFrm_Click()
+Private Sub CmdOpenMainMenuFrm_Click()
 Call ReturnToMenu(Me)
 End Sub
-Private Sub Deciduous_teeth_Click()
-On Error GoTo Err_Deciduous_teeth_Click
-    DoCmd.DoMenuItem acFormBar, acRecordsMenu, 2, , acMenuVer70
-Exit_Deciduous_teeth_Click:
-    Exit Sub
-Err_Deciduous_teeth_Click:
-    MsgBox Err.Description
-    Resume Exit_Deciduous_teeth_Click
-End Sub
-Private Sub openfrmdecid_neonatalform_Click()
-On Error GoTo Err_openfrmdecid_neonatalform_Click
+Private Sub CmdOpenAgeSexFrm_Click()
+On Error GoTo Err_CmdOpenAgeSexFrm_Click
+    Call DoRecordCheck("HR_ageing and sexing", Me![txtUnit], Me![txtIndivid], "Unit Number")
     Dim stDocName As String
     Dim stLinkCriteria As String
-    stDocName = "FRM_simons DECIDUOUS TEETH"
-    stLinkCriteria = "[Individual number]=" & Me![List3]
-    DoCmd.OpenForm stDocName, , , stLinkCriteria
-Exit_openfrmdecid_neonatalform_Click:
+    stDocName = "FRM_Ageing-sexing form"
+    DoCmd.OpenForm stDocName, , , "[Unit Number] = " & Me![txtUnit] & " AND [Individual Number] = " & Me![txtIndivid]
+    DoCmd.Close acForm, Me.Name
+Exit_CmdOpenAgeSexFrm_Click:
     Exit Sub
-Err_openfrmdecid_neonatalform_Click:
+Err_CmdOpenAgeSexFrm_Click:
     MsgBox Err.Description
-    Resume Exit_openfrmdecid_neonatalform_Click
+    Resume Exit_CmdOpenAgeSexFrm_Click
 End Sub
-Private Sub DeciduousTeeth_Click()
-On Error GoTo Err_DeciduousTeeth_Click
-    Dim stDocName As String
-    Dim stLinkCriteria As String
-    stDocName = "FRM_simons DECIDUOUS TEETH"
-    stLinkCriteria = "[Individual number]=" & Me![txtIndivid]
-    DoCmd.OpenForm stDocName, , , stLinkCriteria
-Exit_DeciduousTeeth_Click:
+Private Sub Form_Open(Cancel As Integer)
+On Error GoTo err_open
+    DoCmd.GoToControl "FRM_SUBFORM_Adult_skull"
+Exit Sub
+err_open:
+    General_Error_Trap
     Exit Sub
-Err_DeciduousTeeth_Click:
-    MsgBox Err.Description
-    Resume Exit_DeciduousTeeth_Click
 End Sub
