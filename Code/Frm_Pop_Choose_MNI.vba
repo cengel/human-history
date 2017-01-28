@@ -16,6 +16,9 @@ On Error GoTo err_open
     ElseIf Me![frmWhich] = 2 Then
         DoCmd.OpenForm "Frm_MNI", acNormal, , , , , 2
         DoCmd.Close acForm, Me.Name
+    ElseIf Me![frmWhich] = 3 Then
+        DoCmd.OpenForm "Frm_MNI", acNormal, , , , , 3
+        DoCmd.Close acForm, Me.Name
     Else
         MsgBox "No MNI option selected", vbInformation, "Choose MNI"
     End If

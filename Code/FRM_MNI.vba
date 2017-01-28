@@ -14,6 +14,8 @@ If which <> "" Then
             CalcMNI
         ElseIf which = 2 Then 'space
             CalcSpaceMNI
+        ElseIf which = 3 Then 'building
+            CalcBuildingMNI
         End If
         Me![FRM_SUBFORM_MNI].Requery
         Me![FRM_SUBFORM_MNI].Visible = True
@@ -44,10 +46,14 @@ Else
         Me![lblTitle].Caption = "Calculate MNI for Burial Features"
         Me![FRM_SUBFORM_MNI].SourceObject = "FRM_SUBFORM_MNI"
         Me![FRM_SUBFORM_MNI_LastGenerated].Form.RecordSource = "Q_MNI_LastGenerated"
-    Else
+    ElseIf which = 2 Then
         Me![lblTitle].Caption = "Calculate MNI for Spaces with skeleton units"
         Me![FRM_SUBFORM_MNI].SourceObject = "FRM_SUBFORM_MNI_SPACE"
         Me![FRM_SUBFORM_MNI_LastGenerated].Form.RecordSource = "Q_MNI_LastGenerated_Space"
+    ElseIf which = 3 Then
+        Me![lblTitle].Caption = "Calculate MNI for Buildings with skeleton units"
+        Me![FRM_SUBFORM_MNI].SourceObject = "FRM_SUBFORM_MNI_BUILDING"
+        Me![FRM_SUBFORM_MNI_LastGenerated].Form.RecordSource = "Q_MNI_LastGenerated_Building"
     End If
     Dim permiss
     permiss = GetGeneralPermissions
