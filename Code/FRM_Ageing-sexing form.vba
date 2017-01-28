@@ -31,8 +31,7 @@ err_cboFind:
 End Sub
 Private Sub cmdAll_Click()
 On Error GoTo err_all
-    Me.FilterOn = False
-    Me.Filter = ""
+    Me!cboFind.RowSource = "SELECT [HR_ageing and sexing].[unit number], [HR_ageing and sexing].[Individual number] FROM [HR_ageing and sexing] ORDER BY [HR_ageing and sexing].[unit number], [HR_ageing and sexing].[Individual number]; "
 Exit Sub
 err_all:
     MsgBox Err.Description
@@ -152,5 +151,26 @@ Call SortOutButtons(Me)
 Exit Sub
 err_current:
     MsgBox Err.Description
+    Exit Sub
+End Sub
+Private Sub Form_Delete(Cancel As Integer)
+On Error GoTo err_delete
+    Dim permiss
+    permiss = GetGeneralPermissions
+    If (permiss = "ADMIN") Then
+        Dim response
+        response = MsgBox("Deleting this skeleton will mean permanent deletion of all data associated with this particular skeleton in this database." & Chr(13) & Chr(13) & "Do you really want to delete " & Me![txtUnit] & ".B" & Me![txtIndivid] & "?", vbCritical + vbYesNo, "Critical Delete")
+        If response = vbNo Then
+            Cancel = True
+        Else
+            Cancel = False
+        End If
+    Else
+        MsgBox "You do not have permission to delete this record, please contact your team leader"
+        Cancel = True
+    End If
+Exit Sub
+err_delete:
+    Call General_Error_Trap
     Exit Sub
 End Sub

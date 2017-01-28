@@ -1,4 +1,56 @@
 Option Compare Database
+Private Sub cmdDLowerDisease_Click()
+On Error GoTo Err_cmdUnitDesc_Click
+    Dim stDocName As String
+    Dim stLinkCriteria As String
+    stDocName = "FRM_Deciduous_Lower_Teeth_Disease"
+    DoCmd.OpenForm stDocName, , , stLinkCriteria
+    DoCmd.RunCommand acCmdRecordsGoToNew
+Exit_cmdUnitDesc_Click:
+    Exit Sub
+Err_cmdUnitDesc_Click:
+    MsgBox Err.Description
+    Resume Exit_cmdUnitDesc_Click
+End Sub
+Private Sub cmdDUpperDisease_Click()
+On Error GoTo Err_cmdUnitDesc_Click
+    Dim stDocName As String
+    Dim stLinkCriteria As String
+    stDocName = "FRM_Deciduous_Upper_Teeth_Disease"
+    DoCmd.OpenForm stDocName, , , stLinkCriteria
+    DoCmd.RunCommand acCmdRecordsGoToNew
+Exit_cmdUnitDesc_Click:
+    Exit Sub
+Err_cmdUnitDesc_Click:
+    MsgBox Err.Description
+    Resume Exit_cmdUnitDesc_Click
+End Sub
+Private Sub cmdPLowerDisease_Click()
+On Error GoTo Err_cmdUnitDesc_Click
+    Dim stDocName As String
+    Dim stLinkCriteria As String
+    stDocName = "FRM_Permanent_Lower_Teeth_Disease_v2"
+    DoCmd.OpenForm stDocName, , , stLinkCriteria
+    DoCmd.RunCommand acCmdRecordsGoToNew
+Exit_cmdUnitDesc_Click:
+    Exit Sub
+Err_cmdUnitDesc_Click:
+    MsgBox Err.Description
+    Resume Exit_cmdUnitDesc_Click
+End Sub
+Private Sub cmdPUpperDisease_Click()
+On Error GoTo Err_cmdUnitDesc_Click
+    Dim stDocName As String
+    Dim stLinkCriteria As String
+    stDocName = "FRM_Permanent_Upper_Teeth_Disease_v7"
+    DoCmd.OpenForm stDocName, , , stLinkCriteria
+    DoCmd.RunCommand acCmdRecordsGoToNew
+Exit_cmdUnitDesc_Click:
+    Exit Sub
+Err_cmdUnitDesc_Click:
+    MsgBox Err.Description
+    Resume Exit_cmdUnitDesc_Click
+End Sub
 Private Sub cmdUnitDesc_Click()
 On Error GoTo Err_cmdUnitDesc_Click
     Dim stDocName As String

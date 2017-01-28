@@ -99,6 +99,24 @@ End Sub
 Private Sub CmdOpenMainMenuFrm_Click()
 Call ReturnToMenu(Me)
 End Sub
+Private Sub cmdOpenPermUpprt_Click()
+On Error GoTo err_cmdOpenPermUpp
+    DoCmd.OpenForm "FRM_Permanent_Upper_Teeth_Disease_V7", , , "[UnitNumber] = " & Me![txtUnit] & " AND [Individual Number] = " & Me![txtIndivid]
+    DoCmd.Close acForm, Me.Name
+Exit Sub
+err_cmdOpenPermUpp:
+    Call General_Error_Trap
+    Exit Sub
+End Sub
+Private Sub cmdPermLowerDisease_Click()
+On Error GoTo err_cmdOpenPermLow
+    DoCmd.OpenForm "FRM_Permanent_Lower_Teeth_Disease_V2", , , "[UnitNumber] = " & Me![txtUnit] & " AND [Individual Number] = " & Me![txtIndivid]
+    DoCmd.Close acForm, Me.Name
+Exit Sub
+err_cmdOpenPermLow:
+    Call General_Error_Trap
+    Exit Sub
+End Sub
 Private Sub Command462_Click()
 On Error GoTo Err_CmdOpenUnitDescFrm_Click
     Dim stDocName As String

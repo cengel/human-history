@@ -29,3 +29,17 @@ err_cmdDelete:
     Call General_Error_Trap
     Exit Sub
 End Sub
+Private Sub Form_Open(Cancel As Integer)
+On Error GoTo err_open
+Dim permiss
+    permiss = GetGeneralPermissions
+    If (permiss = "ADMIN") Then
+        Me![cmdDelete].Enabled = True
+    Else
+        Me![cmdDelete].Enabled = False
+    End If
+Exit Sub
+err_open:
+    Call General_Error_Trap
+    Exit Sub
+End Sub

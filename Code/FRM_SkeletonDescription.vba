@@ -11,10 +11,10 @@ err_cboFind:
     MsgBox Err.Description
     Exit Sub
 End Sub
-Private Sub cboFind_NotInList(NewData As String, Response As Integer)
+Private Sub cboFind_NotInList(NewData As String, response As Integer)
 On Error GoTo err_cbofindNot
     MsgBox "This skeleton number does not exist in the database", vbInformation, "No Match"
-    Response = acDataErrContinue
+    response = acDataErrContinue
     Me![cboFind].Undo
     DoCmd.GoToControl "CmdOpenUnitDescFrm"
 Exit Sub
@@ -24,8 +24,7 @@ err_cbofindNot:
 End Sub
 Private Sub cmdAll_Click()
 On Error GoTo err_all
-    Me.FilterOn = False
-    Me.Filter = ""
+    Me![cboFind].RowSource = "SELECT [HR_BasicSkeletonData].[UnitNumber], [HR_BasicSkeletonData].[Individual number] FROM HR_BasicSkeletonData ORDER BY [HR_BasicSkeletonData].[UnitNumber], [HR_BasicSkeletonData].[Individual number];"
 Exit Sub
 err_all:
     MsgBox Err.Description
@@ -53,6 +52,7 @@ On Error GoTo Err_CmdOpenAgeSexFrm_Click
     Dim stLinkCriteria As String
     stDocName = "FRM_Ageing-sexing form"
     DoCmd.OpenForm stDocName, , , "[Unit Number] = " & Me![txtUnit] & " AND [Individual Number] = " & Me![txtIndivid]
+    Forms![FRM_Ageing-sexing form]!cboFind.RowSource = "SELECT [HR_ageing and sexing].[unit number], [HR_ageing and sexing].[Individual number] FROM [HR_ageing and sexing] WHERE [HR_ageing and sexing].[Unit Number] = " & Me![UnitNumber] & " ORDER BY [HR_ageing and sexing].[Unit Number], [HR_ageing and sexing].[Individual number];"
     DoCmd.Close acForm, Me.Name
 Exit_CmdOpenAgeSexFrm_Click:
     Exit Sub
@@ -90,5 +90,26 @@ End If
 Exit Sub
 Err_cmdUnitDesc_Click:
     MsgBox Err.Description
+    Exit Sub
+End Sub
+Private Sub Form_Delete(Cancel As Integer)
+On Error GoTo err_delete
+Dim permiss
+permiss = GetGeneralPermissions
+If (permiss = "ADMIN") Then
+    Dim response
+    response = MsgBox("Deleting this skeleton will mean permanent deletion of all data associated with this particular skeleton in this database." & Chr(13) & Chr(13) & "Do you really want to delete " & Me![txtUnit] & ".B" & Me![txtIndivid] & "?", vbCritical + vbYesNo, "Critical Delete")
+    If response = vbNo Then
+        Cancel = True
+    Else
+        Cancel = False
+    End If
+Else
+    MsgBox "You do not have permission to delete this record, please contact your team leader"
+    Cancel = True
+End If
+Exit Sub
+err_delete:
+    Call General_Error_Trap
     Exit Sub
 End Sub

@@ -39,7 +39,7 @@ If frm![cboAgeCategory] <> "" Then
             If frm.Name <> "FRM_Permanent_Teeth" Then frm![CmdOpenNeonateFrm].Enabled = False
             frm![CmdOpenJuvenileFrm].Enabled = True
             If frm.Name <> "FRM_Deciduous_Teeth" Then frm![CmdOpenAdultFrm].Enabled = False
-        ElseIf frm![cboAgeCategory] = 4 Or frm![cboAgeCategory] = 5 Or frm![cboAgeCategory] = 6 Or frm![cboAgeCategory] = 7 Then
+        ElseIf frm![cboAgeCategory] = 4 Or frm![cboAgeCategory] = 5 Or frm![cboAgeCategory] = 6 Or frm![cboAgeCategory] = 7 Or frm![cboAgeCategory] = 8 Then
             If frm.Name <> "FRM_Permanent_Teeth" Then frm![CmdOpenNeonateFrm].Enabled = False
             frm![CmdOpenJuvenileFrm].Enabled = False
             If frm.Name <> "FRM_Deciduous_Teeth" Then frm![CmdOpenAdultFrm].Enabled = True
