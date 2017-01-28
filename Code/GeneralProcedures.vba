@@ -14,7 +14,7 @@ End Function
 Function CheckIfLOVValueUsed(LOVName, LOVField, LOVValue, CheckTable, CheckTableKeyField, CheckTableField, task, Optional extracrit)
 On Error GoTo err_CheckIFLOVValueUsed
 If LOVName <> "" And LOVField <> "" And LOVValue <> "" And CheckTable <> "" And CheckTableKeyField <> "" And CheckTableField <> "" And task <> "" Then
-    Dim mydb As Database, myrs As Recordset, sql As String, msg As String, msg1 As String, keyfld As Field, count As Integer
+    Dim mydb As Database, myrs As Recordset, sql As String, msg As String, msg1 As String, keyfld As Field, Count As Integer
     Set mydb = CurrentDb
     If Not IsMissing(extracrit) Then
         sql = "SELECT [" & CheckTableKeyField & "], [" & CheckTableField & "] FROM [" & CheckTable & "] WHERE [" & CheckTableField & "] = '" & LOVValue & "' " & extracrit & " ORDER BY [" & CheckTableKeyField & "];"
@@ -26,15 +26,15 @@ If LOVName <> "" And LOVField <> "" And LOVValue <> "" And CheckTable <> "" And 
         msg = "ok"
     Else
         myrs.MoveFirst
-        count = 0
+        Count = 0
         msg = "You cannot " & task & " this " & LOVField & " because the following records in the table " & CheckTable & " use it: "
         msg1 = ""
         Do Until myrs.EOF
             Set keyfld = myrs.Fields(CheckTableKeyField)
             If msg1 <> "" Then msg1 = msg1 & ", "
             msg1 = msg1 & keyfld
-            count = count + 1
-            If count > 50 Then
+            Count = Count + 1
+            If Count > 50 Then
                 msg1 = msg1 & ".....etc"
                 Exit Do
             End If
@@ -65,7 +65,7 @@ End Function
 Function AdminDeletionCheck(CheckTable, CheckField, CheckVal, Term, retField)
 On Error GoTo err_AdminDeletionCheck
 If CheckTable <> "" And CheckField <> "" And CheckVal <> "" And Term <> "" Then
-    Dim mydb As Database, myrs As Recordset, sql As String, msg As String, msg1 As String, keyfld As Field, count As Integer
+    Dim mydb As Database, myrs As Recordset, sql As String, msg As String, msg1 As String, keyfld As Field, Count As Integer
     Set mydb = CurrentDb
     If CheckTable = "Exca: stratigraphy" And CheckField = "To_units" Then
         sql = "SELECT [" & retField & "] FROM [" & CheckTable & "] WHERE [" & CheckField & "] = '" & CheckVal & "';"
@@ -83,15 +83,15 @@ If CheckTable <> "" And CheckField <> "" And CheckVal <> "" And Term <> "" Then
         msg = ""
     Else
         myrs.MoveFirst
-        count = 0
+        Count = 0
         msg = Term & ": "
         msg1 = ""
         Do Until myrs.EOF
             Set keyfld = myrs.Fields(retField)
             If msg1 <> "" Then msg1 = msg1 & ", "
             msg1 = msg1 & keyfld
-            count = count + 1
-            If count > 50 Then
+            Count = Count + 1
+            If Count > 50 Then
                 msg1 = msg1 & ".....etc"
                 Exit Do
             End If
@@ -138,7 +138,7 @@ On Error GoTo err_rename
 Dim mydb As DAO.Database, I, newName
 Dim tmptable As TableDef
 Set mydb = CurrentDb
-For I = 0 To mydb.TableDefs.count - 1 'loop the tables collection
+For I = 0 To mydb.TableDefs.Count - 1 'loop the tables collection
          Set tmptable = mydb.TableDefs(I)
         If tmptable.Connect <> "" Then
             Debug.Print tmptable.Name

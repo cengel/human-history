@@ -14,7 +14,7 @@ Path = TopDir & "\" & "Code"           'Path where the files will be written
 If (Dir(Path, vbDirectory) = "") Then
   MkDir Path                           'Ensure this exists
 End If
-Last = Application.CurrentProject.AllModules.count - 1
+Last = Application.CurrentProject.AllModules.Count - 1
 For I = 0 To Last
   Name = CurrentProject.AllModules(I).Name
   WasOpen = True                       'Assume already open
@@ -45,7 +45,7 @@ For I = 0 To Last
     DoCmd.Close acModule, Name         'It wasn't open, so close it again
   End If
 Next
-Last = Application.CurrentProject.AllForms.count - 1
+Last = Application.CurrentProject.AllForms.Count - 1
 For I = 0 To Last
   Name = CurrentProject.AllForms(I).Name
   WasOpen = True

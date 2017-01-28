@@ -97,7 +97,7 @@ On Error GoTo err_open
         If dot > 0 Then
             unitnum = Left(strArgs, dot - 1)
             Me!txtUnit = unitnum
-            skelnum = Right(strArgs, Len(strArgs) - dot)
+            skelnum = right(strArgs, Len(strArgs) - dot)
             Me!txtIndivid = skelnum
             Me![txtTitle] = "Relate Skeleton " & Me!txtUnit & ".B" & Me!txtIndivid & " to another Skeleton"
         Else
