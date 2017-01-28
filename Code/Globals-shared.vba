@@ -5,4 +5,4 @@ Public VersionNumber
 Public GeneralPermissions
 Public Const ImageLocationOnSite = "H:\Catalhoyuk\images\"
 Public Const ImageLocationOnWeb = "http://www.catalhoyuk.com/database/database_new/test/getphoto.asp"
-Public Const VersionNumberLocal = "4.7" 'NEW 2010 TO FLAG UPDATE MESSAGE TO USER - see SetCurrentVersion in module General Procedures-shared
+Public Const VersionNumberLocal = "5.0" 'NEW 2010 TO FLAG UPDATE MESSAGE TO USER - see SetCurrentVersion in module General Procedures-shared
